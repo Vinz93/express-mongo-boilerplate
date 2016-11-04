@@ -5,6 +5,7 @@ import { paginate } from '../helpers/utils';
 import User from '../models/user';
 
 const UserController = {
+
   readAll(req, res, next) {
     const offset = paginate.offset(req.query.offset);
     const limit = paginate.limit(req.query.limit);
@@ -13,7 +14,9 @@ const UserController = {
     const sort = req.query.sort || {
       createdAt: 1,
     };
-    const select = {};
+    const select = {
+      password: 0,
+    };
 
     User.paginate(find, {
       sort,
@@ -24,6 +27,7 @@ const UserController = {
     .then(users => res.json(users))
     .catch(next);
   },
+
   create(req, res, next) {
     User.findOne({
       email: req.body.email,
@@ -39,6 +43,7 @@ const UserController = {
     })
     .catch(err => res.json({ err }));
   },
+
 };
 
 export default UserController;
