@@ -2,6 +2,7 @@ import httpStatus from 'http-status';
 import Promise from 'bluebird';
 
 import { paginate } from '../helpers/utils';
+import { APIError } from '../helpers/errors';
 import User from '../models/user';
 
 const UserController = {
@@ -38,10 +39,10 @@ const UserController = {
           .then(user => res.json(user))
           .catch(next);
       } else {
-        return res.json({ err: 'ya existe' });
+        return Promise.reject(new APIError('The user already exist.', httpStatus.UNPROCESSABLE_ENTITY));
       }
     })
-    .catch(err => res.json({ err }));
+    .catch(next);
   },
 
 };
