@@ -19,4 +19,17 @@ export default {
       bornAt: Joi.string().isoDate(),
     },
   },
+
+  login: {
+    body: {
+      email: Joi.string().email().required(),
+      password: Joi.string().required(),
+    },
+  },
+
+  readByMe: {
+    headers: {
+      'auth-token': Joi.string().required(),
+    },
+  },
 };

@@ -3,6 +3,7 @@ import Promise from 'bluebird';
 
 import { paginate } from '../helpers/utils';
 import { APIError } from '../helpers/errors';
+import { createJwt, verifyJwt } from '../helpers/jwt';
 import User from '../models/user';
 
 const UserController = {
@@ -43,6 +44,49 @@ const UserController = {
       }
     })
     .catch(next);
+  },
+
+  login(req, res, next) {
+    User.findOne({
+      email: req.body.email,
+    })
+    .then(user => {
+      if (!user) {
+        return Promise.reject(new APIError('user not found', httpStatus.NOT_FOUND));
+      }
+      if (!user.authenticate(req.body.password)) {
+        return Promise.reject(new APIError('wrong password', httpStatus.BAD_REQUEST));
+      }
+      return res.json({
+        token: createJwt(user),
+      });
+    })
+    .catch(err => next(err));
+  },
+
+  validate(req, res, next) {
+    const token = req.get('Authorization');
+    verifyJwt(token)
+      .then(({ id }) => {
+        console.log('pas thorung ');
+        User.findById(id)
+          .then(user => {
+            if (!user) {
+              return Promise.reject(new APIError('User not found', httpStatus.UNAUTHORIZED));
+            }
+            res.locals.user = user;
+            next();
+          })
+          .catch(next);
+      })
+      .catch(err => {
+        console.log('handle errors');
+        next(err);
+      });
+  },
+
+  readByMe(req, res, next) {
+    return res.json(req.locals.user);
   },
 
 };
