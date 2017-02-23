@@ -8,7 +8,7 @@ import nodemailer from 'nodemailer';
 
 import errorMessages from '../services/middlewares/error_messages';
 import errorResponse from '../services/middlewares/error_response';
-import { appConfig, mailer } from './index';
+import config from './env';
 import routes from '../routes';
 
 const app = express();
@@ -16,7 +16,7 @@ const app = express();
 app.disable('x-powered-by');
 app.use(methodOverride('X-HTTP-Method-Override'));
 
-if (appConfig.env === 'development' || appConfig.env === 'testing') {
+if (config.appConfig.env === 'development' || config.appConfig.env === 'testing') {
   app.use(morgan('dev'));
   app.use(bodyParser.urlencoded({
     extended: true,
@@ -25,13 +25,13 @@ if (appConfig.env === 'development' || appConfig.env === 'testing') {
 
 app.use(bodyParser.json());
 app.use(cors());
-// future add swagger and api error
-app.use(appConfig.path, routes);
+// future add swagger
+app.use(config.appConfig.path, routes);
 
 app.use(errorMessages);
 
 app.use(errorResponse);
 
-app.locals.config = appConfig;
-app.locals.transport = nodemailer.createTransport(mailer);
+app.locals.config = config.appConfig;
+app.locals.transport = nodemailer.createTransport(config.mailer);
 export default app;
