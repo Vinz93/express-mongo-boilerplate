@@ -2,13 +2,13 @@ import mongoose from 'mongoose';
 import Promise from 'bluebird';
 
 import app from './config/express';
-import { dbConfig, appConfig } from './config';
+import config from './config/env';
 
 mongoose.Promise = Promise;
 
 function listen() {
-  app.listen(appConfig.port);
-  console.log(`API started on port ${appConfig.port}`);
+  app.listen(config.appConfig.port);
+  console.log(`API started on port ${config.appConfig.port}`);
 }
 
 function connect() {
@@ -19,7 +19,7 @@ function connect() {
       },
     },
   };
-  return mongoose.connect(dbConfig.db, options).connection;
+  return mongoose.connect(config.dbConfig.db, options).connection;
 }
 
 connect()
