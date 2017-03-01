@@ -68,7 +68,6 @@ const UserController = {
     const token = req.get('Authorization');
     verifyJwt(token)
       .then(({ id }) => {
-        console.log('pas thorung ');
         User.findById(id)
           .then(user => {
             if (!user) {
@@ -79,14 +78,11 @@ const UserController = {
           })
           .catch(next);
       })
-      .catch(err => {
-        console.log('handle errors');
-        next(err);
-      });
+      .catch(err => next(err));
   },
 
   readByMe(req, res, next) {
-    return res.json(req.locals.user);
+    return res.json(res.locals.user);
   },
 
 };

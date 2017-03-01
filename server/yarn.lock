@@ -1884,17 +1884,7 @@ jsonpointer@^4.0.0:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/jsonpointer/-/jsonpointer-4.0.1.tgz#4fd92cb34e0e9db3c89c8622ecf51f9b978c6cb9"
 
-jsonwebtoken@^7.0.0:
-  version "7.2.1"
-  resolved "https://registry.yarnpkg.com/jsonwebtoken/-/jsonwebtoken-7.2.1.tgz#0fc7217473fc02b4c9aa1e188aa70b51bba4fccb"
-  dependencies:
-    joi "^6.10.1"
-    jws "^3.1.4"
-    lodash.once "^4.0.0"
-    ms "^0.7.1"
-    xtend "^4.0.1"
-
-jsonwebtoken@^7.3.0:
+jsonwebtoken@^7.0.0, jsonwebtoken@^7.3.0:
   version "7.3.0"
   resolved "https://registry.yarnpkg.com/jsonwebtoken/-/jsonwebtoken-7.3.0.tgz#85118d6a70e3fccdf14389f4e7a1c3f9c8a9fbba"
   dependencies:
@@ -2190,6 +2180,13 @@ mongodb@2.2.21:
     mongodb-core "2.1.6"
     readable-stream "2.1.5"
 
+mongoose-field-remover@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/mongoose-field-remover/-/mongoose-field-remover-0.0.3.tgz#cc0fd347addd4fc480a76b470e149501fb839398"
+  dependencies:
+    mongoose "^4.4.20"
+    object-assign "^4.1.0"
+
 mongoose-paginate@^5.0.3:
   version "5.0.3"
   resolved "https://registry.yarnpkg.com/mongoose-paginate/-/mongoose-paginate-5.0.3.tgz#d7ae49ed5bf64f1f7af7620ea865b67058c55371"
@@ -2210,7 +2207,7 @@ mongoose-validator@^1.2.5:
     underscore "^1.8.3"
     validator "^4.0.2"
 
-mongoose@^4.4.16:
+mongoose@^4.4.16, mongoose@^4.4.20:
   version "4.7.7"
   resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-4.7.7.tgz#45118baa56c0595c924e52288d23559f98a741de"
   dependencies:

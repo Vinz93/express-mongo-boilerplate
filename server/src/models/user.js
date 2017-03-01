@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import validate from 'mongoose-validator';
 import paginate from 'mongoose-paginate';
 import uniqueValidator from 'mongoose-unique-validator';
+import fieldRemover from 'mongoose-field-remover';
 import crypto from 'crypto';
 
 const Schema = mongoose.Schema;
@@ -59,6 +60,7 @@ UserSchema.pre('save', function (next) {
   next();
 });
 
+UserSchema.plugin(fieldRemover, 'password __v');
 UserSchema.plugin(uniqueValidator);
 UserSchema.plugin(paginate);
 

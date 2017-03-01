@@ -29,7 +29,7 @@ export default {
 
   readByMe: {
     headers: {
-      'auth-token': Joi.string().required(),
+      authorization: Joi.string().required(),
     },
   },
 };
