@@ -1,3 +1,5 @@
+import path from 'path';
+
 export const dbConfig = {
   db: 'mongodb://localhost/node_redux',
 };
@@ -9,6 +11,7 @@ export const appConfig = {
   basePath: '/',
   port: 3000,
   basePort: 3000,
+  root: path.join(__dirname, '../../../'),
 };
 
 export const mailer = {
