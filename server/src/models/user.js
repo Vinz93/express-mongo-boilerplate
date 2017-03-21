@@ -7,6 +7,17 @@ import crypto from 'crypto';
 
 const Schema = mongoose.Schema;
 
+/**
+ * @swagger
+ * definition:
+ *   User:
+ *     properties:
+ *       email:
+ *         type: string
+ *     required:
+ *       - email
+ */
+
 const UserSchema = new Schema({
   firstName: {
     type: String,
