@@ -75,6 +75,12 @@ const UserController = {
    *         in: formData
    *         required: true
    *         type: string
+   *       - name: bornAt
+   *         description: user birthdate
+   *         in: formData
+   *         required: true
+   *         type: string
+   *         format: date-time
    *     responses:
    *       200:
    *         description: User object'
@@ -94,6 +100,53 @@ const UserController = {
       }
     })
     .catch(next);
+  },
+
+  /**
+   * @swagger
+   * /users/{id}:
+   *   put:
+   *     tags:
+   *      - User
+   *     description: updates an user
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: firstName
+   *         description: User's first name.
+   *         in: formData
+   *         required: false
+   *         type: string
+   *       - name: email
+   *         description: User's email.
+   *         in: formData
+   *         required: false
+   *         type: string
+   *       - name: bornAt
+   *         description: user birthdate
+   *         in: formData
+   *         required: false
+   *         type: string
+   *         format: date-time
+   *       - name: id
+   *         description: user id.
+   *         in: path
+   *         required: true
+   *         type: string
+   *     responses:
+   *       200:
+   *         description: User object'
+   */
+
+  update(req, res, next) {
+    User.findById(req.params.id)
+      .then(user => {
+        if (!user) return Promise.reject(new APIError('User not found.', httpStatus.NOT_FOUND));
+        user.set(req.body);
+        return user.save();
+      })
+      .then(() => res.status(httpStatus.NO_CONTENT).end())
+      .catch(next);
   },
 
   /**

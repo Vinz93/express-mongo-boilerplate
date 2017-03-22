@@ -20,6 +20,17 @@ export default {
     },
   },
 
+  update: {
+    params: {
+      id: Joi.objectId().required(),
+    },
+    body: {
+      email: Joi.string().email(),
+      firstName: Joi.string(),
+      bornAt: Joi.string(),
+    },
+  },
+
   login: {
     body: {
       email: Joi.string().email().required(),

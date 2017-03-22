@@ -14,6 +14,9 @@ router.route('/users')
   .get(validate(userValidator.readAll), User.readAll)
   .post(validate(userValidator.create), User.create);
 
+router.route('/users/:id')
+  .put(validate(userValidator.update), User.update);
+
 router.route('/users/login')
   .post(validate(userValidator.login), User.login);
 

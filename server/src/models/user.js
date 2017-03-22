@@ -14,8 +14,14 @@ const Schema = mongoose.Schema;
  *     properties:
  *       email:
  *         type: string
+ *       firstName:
+ *         type: string
+ *       password:
+ *         type: string
  *     required:
  *       - email
+ *       - firstName
+ *       - password
  */
 
 const UserSchema = new Schema({
