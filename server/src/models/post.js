@@ -6,6 +6,29 @@ import fieldRemover from 'mongoose-field-remover';
 
 const Schema = mongoose.Schema;
 
+/**
+ * @swagger
+ * definition:
+ *   Post:
+ *     properties:
+ *       title:
+ *         type: string
+ *       content:
+ *         type: string
+ *       image:
+ *         type: string
+ *       categories:
+ *         type: array
+ *         items:
+ *           type: string
+ *       author:
+ *         type: string
+ *     required:
+ *       - title
+ *       - content
+ *       - author
+ */
+
 const postSchema = new Schema({
   title: {
     type: String,
@@ -19,11 +42,7 @@ const postSchema = new Schema({
     type: String,
   },
   categories: [
-    {
-      name: {
-        type: String,
-      },
-    },
+    { type: String },
   ],
   author: {
     type: Schema.Types.ObjectId,

@@ -10,4 +10,13 @@ export default {
       limit: Joi.number().integer(),
     },
   },
+  create: {
+    body: {
+      title: Joi.string().required(),
+      content: Joi.string().required(),
+      image: Joi.string(),
+      categories: Joi.array().items(Joi.string()),
+      author: Joi.objectId().required(),
+    },
+  },
 };

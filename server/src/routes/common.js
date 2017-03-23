@@ -26,6 +26,7 @@ router.route('/users/me')
   .get(validate(userValidator.readByMe), User.validate, User.readByMe);
 
 router.route('/posts')
-  .get(validate(postValidator.readAll), Post.readAll);
+  .get(validate(postValidator.readAll), Post.readAll)
+  .post(validate(postValidator.create), Post.create);
 
 export default router;

@@ -18,6 +18,9 @@ const Schema = mongoose.Schema;
  *         type: string
  *       password:
  *         type: string
+ *       bornAt:
+ *         type: string
+ *         format: date-time
  *     required:
  *       - email
  *       - firstName

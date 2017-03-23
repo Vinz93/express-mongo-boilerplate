@@ -60,30 +60,27 @@ const UserController = {
    *     produces:
    *       - application/json
    *     parameters:
-   *       - name: firstName
-   *         description: User's first name.
-   *         in: formData
+   *       - name: user
+   *         description: User object.
+   *         in: body
    *         required: true
-   *         type: string
-   *       - name: email
-   *         description: User's email.
-   *         in: formData
-   *         required: true
-   *         type: string
-   *       - name: password
-   *         description: User's password.
-   *         in: formData
-   *         required: true
-   *         type: string
-   *       - name: bornAt
-   *         description: user birthdate
-   *         in: formData
-   *         required: true
-   *         type: string
-   *         format: date-time
+   *         schema:
+   *           $ref: '#/definitions/User'
    *     responses:
    *       200:
-   *         description: User object'
+   *         description: Successfully created
+   *         schema:
+   *           allOf:
+   *              - $ref: '#/definitions/User'
+   *              - properties:
+   *                  id:
+   *                    type: string
+   *                  createdAt:
+   *                    type: string
+   *                    format: date-time
+   *                  updatedAt:
+   *                    type: string
+   *                    format: date-time
    */
 
   create(req, res, next) {
@@ -112,27 +109,17 @@ const UserController = {
    *     produces:
    *       - application/json
    *     parameters:
-   *       - name: firstName
-   *         description: User's first name.
-   *         in: formData
-   *         required: false
-   *         type: string
-   *       - name: email
-   *         description: User's email.
-   *         in: formData
-   *         required: false
-   *         type: string
-   *       - name: bornAt
-   *         description: user birthdate
-   *         in: formData
-   *         required: false
-   *         type: string
-   *         format: date-time
    *       - name: id
-   *         description: user id.
+   *         description: User id
    *         in: path
    *         required: true
    *         type: string
+   *       - name: user
+   *         description: User object
+   *         in: body
+   *         required: true
+   *         schema:
+   *           $ref: '#/definitions/User'
    *     responses:
    *       200:
    *         description: User object'

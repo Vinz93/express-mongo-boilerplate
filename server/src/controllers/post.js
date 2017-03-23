@@ -5,6 +5,8 @@ import { paginate } from '../helpers/utils';
 import { APIError } from '../helpers/errors';
 import { createJwt, verifyJwt } from '../helpers/jwt';
 import Post from '../models/post';
+import User from '../models/user';
+
 
 /**
  * @swagger
@@ -47,4 +49,47 @@ export const readAll = (req, res, next) => {
   })
   .then(posts => res.json(posts))
   .catch(next);
+};
+
+/**
+ * @swagger
+ * /posts:
+ *   post:
+ *     tags:
+ *      - Posts
+ *     description: Create posts
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: post
+ *         description: post object.
+ *         in: body
+ *         required: true
+ *         schema:
+ *           $ref: '#/definitions/Post'
+ *     responses:
+ *       200:
+ *         description: Successfully created
+ *         schema:
+ *           allOf:
+ *              - $ref: '#/definitions/Post'
+ *              - properties:
+ *                  id:
+ *                    type: string
+ *                  createdAt:
+ *                    type: string
+ *                    format: date-time
+ *                  updatedAt:
+ *                    type: string
+ *                    format: date-time
+ */
+
+export const create = (req, res, next) => {
+  User.findById(req.body.author)
+    .then(user => {
+      if (!user) Promise.reject(new APIError('user not found.', httpStatus.NOT_FOUND));
+      return Post.create(req.body);
+    })
+    .then(post => res.json(post))
+    .catch(next);
 };
