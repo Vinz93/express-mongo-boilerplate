@@ -23,9 +23,9 @@ const spec = swaggerDoc({
     basePath: config.appConfig.basePath,
   },
   apis: [
-    `${path.resolve()}/src/routes/*.js`,
     `${path.resolve()}/src/models/**/*.js`,
     `${path.resolve()}/src/controllers/**/*.js`,
+    `${path.resolve()}/src/routes/**/*.js`,
   ],
 });
 
