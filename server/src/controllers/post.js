@@ -33,7 +33,7 @@ import User from '../models/user';
  *         description: return an array of posts
  */
 
-export const readAll = (req, res, next) => {
+export const readAll = async (req, res, next) => {
   const offset = paginate.offset(req.query.offset);
   const limit = paginate.limit(req.query.limit);
 
@@ -42,13 +42,12 @@ export const readAll = (req, res, next) => {
     createdAt: 1,
   };
 
-  Post.paginate(find, {
+  const posts = await Post.paginate(find, {
     sort,
     offset,
     limit,
-  })
-  .then(posts => res.json(posts))
-  .catch(next);
+  });
+  res.json(posts);
 };
 
 /**
@@ -84,12 +83,11 @@ export const readAll = (req, res, next) => {
  *                    format: date-time
  */
 
-export const create = (req, res, next) => {
-  User.findById(req.body.author)
-    .then(user => {
-      if (!user) Promise.reject(new APIError('user not found.', httpStatus.NOT_FOUND));
-      return Post.create(req.body);
-    })
-    .then(post => res.json(post))
-    .catch(next);
+export const create = async (req, res, next) => {
+  const user = await User.findById(req.body.author);
+  if (!user) return next(new APIError('user not found.', httpStatus.NOT_FOUND));
+  try {
+    const post = await Post.create(req.body);
+    res.json(post);
+  } catch (e) { next(e); }
 };

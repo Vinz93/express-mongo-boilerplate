@@ -9,6 +9,7 @@ mongoose.Promise = Promise;
 function listen() {
   app.listen(config.appConfig.port);
   console.log(`API started on port ${config.appConfig.port}`);
+  console.log(`Swagger on ${config.appConfig.host}:${config.appConfig.port}${config.appConfig.path}docs`);
 }
 
 function connect() {

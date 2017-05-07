@@ -32,7 +32,7 @@ const UserController = {
    *         description: return an array of users'
    */
 
-  readAll(req, res, next) {
+  async readAll(req, res, next) {
     const offset = paginate.offset(req.query.offset);
     const limit = paginate.limit(req.query.limit);
 
@@ -41,13 +41,12 @@ const UserController = {
       createdAt: 1,
     };
 
-    User.paginate(find, {
+    const users = await User.paginate(find, {
       sort,
       offset,
       limit,
-    })
-    .then(users => res.json(users))
-    .catch(next);
+    });
+    res.json(users);
   },
 
   /**
@@ -82,21 +81,13 @@ const UserController = {
    *                    type: string
    *                    format: date-time
    */
-
-  create(req, res, next) {
-    User.findOne({
-      email: req.body.email,
-    })
-    .then(user => {
-      if (!user) {
-        User.create(req.body)
-          .then(user => res.json(user))
-          .catch(next);
-      } else {
-        return Promise.reject(new APIError('The user already exist.', httpStatus.UNPROCESSABLE_ENTITY));
-      }
-    })
-    .catch(next);
+  async create(req, res, next) {
+    const user = await User.findOne({ email: req.body.email });
+    if (!user) {
+      const newUser = await User.create(req.body);
+      return res.json(newUser);
+    }
+    return next(new APIError('The user already exist.', httpStatus.UNPROCESSABLE_ENTITY));
   },
 
   /**
@@ -125,17 +116,14 @@ const UserController = {
    *         description: User object'
    */
 
-  update(req, res, next) {
-    User.findById(req.params.id)
-      .then(user => {
-        if (!user) return Promise.reject(new APIError('User not found.', httpStatus.NOT_FOUND));
-        user.set(req.body);
-        return user.save();
-      })
+  async update(req, res, next) {
+    const user = await User.findById(req.params.id);
+    if (!user) next(new APIError('User not found.', httpStatus.NOT_FOUND));
+    user.set(req.body);
+    user.save()
       .then(() => res.status(httpStatus.NO_CONTENT).end())
       .catch(next);
   },
-
   /**
    * @swagger
    * /users/login:
@@ -161,39 +149,24 @@ const UserController = {
    *         description: returns user token'
    */
 
-  login(req, res, next) {
-    User.findOne({
-      email: req.body.email,
-    })
-    .then(user => {
-      if (!user) {
-        return Promise.reject(new APIError('user not found', httpStatus.NOT_FOUND));
-      }
-      if (!user.authenticate(req.body.password)) {
-        return Promise.reject(new APIError('wrong password', httpStatus.BAD_REQUEST));
-      }
-      return res.json({
-        token: createJwt(user),
-      });
-    })
-    .catch(err => next(err));
+  async login(req, res, next) {
+    const user = await User.findOne({ email: req.body.email });
+    if (!user) return next(new APIError('user not found', httpStatus.NOT_FOUND));
+    if (!user.authenticate(req.body.password)) {
+      return next(new APIError('wrong password', httpStatus.BAD_REQUEST));
+    }
+    return res.json({
+      token: createJwt(user),
+    });
   },
 
-  validate(req, res, next) {
+  async validate(req, res, next) {
     const token = req.get('Authorization');
-    verifyJwt(token)
-      .then(({ id }) => {
-        User.findById(id)
-          .then(user => {
-            if (!user) {
-              return Promise.reject(new APIError('User not found', httpStatus.UNAUTHORIZED));
-            }
-            res.locals.user = user;
-            next();
-          })
-          .catch(next);
-      })
-      .catch(err => next(err));
+    const { id } = await verifyJwt(token);
+    const user = await User.findById(id);
+    if (!user) return next(new APIError('User not found', httpStatus.UNAUTHORIZED));
+    res.locals.user = user;
+    next();
   },
 
   /**
