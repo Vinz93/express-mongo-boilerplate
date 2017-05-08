@@ -38,11 +38,13 @@ const UserSchema = new Schema({
       validator: 'isEmail',
       message: 'not a valid email',
     }),
+    required: true,
     unique: true,
     uniqueCaseInsensitive: true,
     sparse: true,
   },
   password: {
+    required: true,
     type: String,
   },
   bornAt: {
