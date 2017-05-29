@@ -38,6 +38,7 @@ const UserSchema = new Schema({
       validator: 'isEmail',
       message: 'not a valid email',
     }),
+    required: true,
     unique: true,
     uniqueCaseInsensitive: true,
     sparse: true,
@@ -45,6 +46,7 @@ const UserSchema = new Schema({
     required: true,
   },
   password: {
+    required: true,
     type: String,
     required: true,
   },

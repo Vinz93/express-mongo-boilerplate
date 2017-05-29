@@ -3,7 +3,7 @@ import Promise from 'bluebird';
 
 import { paginate } from '../helpers/utils';
 import { APIError } from '../helpers/errors';
-import { createJwt, verifyJwt } from '../helpers/jwt';
+import { createJwt, verifyJwt } from '../services/jwt';
 import User from '../models/user';
 
 const UserController = {

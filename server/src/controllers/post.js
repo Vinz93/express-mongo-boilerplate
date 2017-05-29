@@ -3,7 +3,6 @@ import Promise from 'bluebird';
 
 import { paginate } from '../helpers/utils';
 import { APIError } from '../helpers/errors';
-import { createJwt, verifyJwt } from '../helpers/jwt';
 import Post from '../models/post';
 import User from '../models/user';
 
