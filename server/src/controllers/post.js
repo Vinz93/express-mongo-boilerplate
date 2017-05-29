@@ -86,8 +86,6 @@ export const readAll = async (req, res, next) => {
 export const create = async (req, res, next) => {
   const user = await User.findById(req.body.author);
   if (!user) return next(new APIError('user not found.', httpStatus.NOT_FOUND));
-  try {
-    const post = await Post.create(req.body);
-    res.json(post);
-  } catch (e) { next(e); }
+  const post = await Post.create(req.body);
+  res.json(post);
 };

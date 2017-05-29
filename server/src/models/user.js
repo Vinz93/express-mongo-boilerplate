@@ -41,9 +41,12 @@ const UserSchema = new Schema({
     unique: true,
     uniqueCaseInsensitive: true,
     sparse: true,
+    trim: true,
+    required: true,
   },
   password: {
     type: String,
+    required: true,
   },
   bornAt: {
     type: Date,

@@ -55,7 +55,7 @@
     "passport": "^0.3.2",
     "passport-jwt": "^2.0.0",
     "passport-local": "^1.0.0",
-    "swagger-jsdoc": "^1.9.2",
+    "swagger-jsdoc": "^1.9.4",
     "swagger-tools": "^0.10.1"
   }
 }
