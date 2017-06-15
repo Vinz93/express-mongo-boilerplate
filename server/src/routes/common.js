@@ -17,7 +17,7 @@ router.route('/users')
   .post(validate(userValidator.create), catchErrors(User.create));
 
 router.route('/users/:id')
-  .put(validate(userValidator.update), catchErrors(User.update));
+  .patch(validate(userValidator.update), catchErrors(User.update));
 
 router.route('/users/login')
   .post(validate(userValidator.login), catchErrors(User.login));

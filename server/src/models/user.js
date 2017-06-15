@@ -39,7 +39,7 @@ const UserSchema = new Schema({
       message: 'not a valid email',
     }),
     required: true,
-    unique: true,
+    unique: 'the email is already taken',
     uniqueCaseInsensitive: true,
     sparse: true,
     trim: true,
