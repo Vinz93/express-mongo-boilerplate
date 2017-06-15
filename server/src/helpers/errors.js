@@ -38,8 +38,4 @@ export class ValidationError extends ExtendableError {
   catchErrors(), catch and errors they throw, and pass it along to our express middleware with next()
 */
 
-export const catchErrors = fn => (
-   function (req, res, next) {
-     return fn(req, res, next).catch(next);
-   }
-);
+export const catchErrors = fn => (req, res, next) => fn(req, res, next).catch(next);
