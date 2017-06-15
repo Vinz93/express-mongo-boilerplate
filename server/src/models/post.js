@@ -1,7 +1,5 @@
 import mongoose from 'mongoose';
-import validate from 'mongoose-validator';
 import paginate from 'mongoose-paginate';
-import uniqueValidator from 'mongoose-unique-validator';
 import fieldRemover from 'mongoose-field-remover';
 
 const Schema = mongoose.Schema;
@@ -52,5 +50,6 @@ const postSchema = new Schema({
 });
 
 postSchema.plugin(paginate);
+postSchema.plugin(fieldRemover, '__v');
 
 export default mongoose.model('Post', postSchema);
