@@ -1,11 +1,9 @@
 import httpStatus from 'http-status';
-import Promise from 'bluebird';
 
 import { paginate } from '../helpers/utils';
 import { APIError } from '../helpers/errors';
 import Post from '../models/post';
 import User from '../models/user';
-
 
 /**
  * @swagger
@@ -32,7 +30,7 @@ import User from '../models/user';
  *         description: return an array of posts
  */
 
-export const readAll = async (req, res, next) => {
+export const readAll = async (req, res) => {
   const offset = paginate.offset(req.query.offset);
   const limit = paginate.limit(req.query.limit);
 
@@ -82,9 +80,9 @@ export const readAll = async (req, res, next) => {
  *                    format: date-time
  */
 
-export const create = async (req, res, next) => {
+export const create = async (req, res) => {
   const user = await User.findById(req.body.author);
-  if (!user) return next(new APIError('user not found.', httpStatus.NOT_FOUND));
+  if (!user) throw new APIError('user not found.', httpStatus.NOT_FOUND);
   const post = await Post.create(req.body);
   res.json(post);
 };

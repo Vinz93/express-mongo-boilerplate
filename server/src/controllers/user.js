@@ -1,5 +1,4 @@
 import httpStatus from 'http-status';
-import Promise from 'bluebird';
 
 import { paginate } from '../helpers/utils';
 import { APIError } from '../helpers/errors';
@@ -32,7 +31,7 @@ const UserController = {
    *         description: return an array of users'
    */
 
-  async readAll(req, res, next) {
+  async readAll(req, res) {
     const offset = paginate.offset(req.query.offset);
     const limit = paginate.limit(req.query.limit);
 
@@ -81,19 +80,15 @@ const UserController = {
    *                    type: string
    *                    format: date-time
    */
-  async create(req, res, next) {
-    const user = await User.findOne({ email: req.body.email });
-    if (!user) {
-      const newUser = await User.create(req.body);
-      return res.json(newUser);
-    }
-    return next(new APIError('The user already exist.', httpStatus.UNPROCESSABLE_ENTITY));
+  async create(req, res) {
+    const newUser = await User.create(req.body);
+    return res.json(newUser);
   },
 
   /**
    * @swagger
    * /users/{id}:
-   *   put:
+   *   patch:
    *     tags:
    *      - User
    *     description: updates an user
@@ -116,13 +111,12 @@ const UserController = {
    *         description: User object'
    */
 
-  async update(req, res, next) {
+  async update(req, res) {
     const user = await User.findById(req.params.id);
-    if (!user) next(new APIError('User not found.', httpStatus.NOT_FOUND));
+    if (!user) throw new APIError('User not found.', httpStatus.NOT_FOUND);
     user.set(req.body);
-    user.save()
-      .then(() => res.status(httpStatus.NO_CONTENT).end())
-      .catch(next);
+    await user.save();
+    res.status(httpStatus.NO_CONTENT).end();
   },
   /**
    * @swagger
@@ -149,11 +143,11 @@ const UserController = {
    *         description: returns user token'
    */
 
-  async login(req, res, next) {
+  async login(req, res) {
     const user = await User.findOne({ email: req.body.email });
-    if (!user) return next(new APIError('user not found', httpStatus.NOT_FOUND));
+    if (!user) throw new APIError('user not found', httpStatus.NOT_FOUND);
     if (!user.authenticate(req.body.password)) {
-      return next(new APIError('wrong password', httpStatus.BAD_REQUEST));
+      throw new APIError('wrong password', httpStatus.BAD_REQUEST);
     }
     return res.json({
       token: createJwt(user),
@@ -164,7 +158,7 @@ const UserController = {
     const token = req.get('Authorization');
     const { id } = await verifyJwt(token);
     const user = await User.findById(id);
-    if (!user) return next(new APIError('User not found', httpStatus.UNAUTHORIZED));
+    if (!user) throw new APIError('User not found', httpStatus.UNAUTHORIZED);
     res.locals.user = user;
     next();
   },
@@ -189,7 +183,7 @@ const UserController = {
    *         description: user information'
    */
 
-  readByMe(req, res, next) {
+  readByMe(req, res) {
     return res.json(res.locals.user);
   },
 

@@ -5,11 +5,12 @@ import app from './config/express';
 import config from './config/env';
 
 mongoose.Promise = Promise;
+const { port, path, host } = config.appConfig;
 
 function listen() {
-  app.listen(config.appConfig.port);
-  console.log(`API started on port ${config.appConfig.port}`);
-  console.log(`Swagger on ${config.appConfig.host}:${config.appConfig.port}${config.appConfig.path}docs`);
+  app.listen(port);
+  console.log(`💻  API started on port ${port}`);
+  console.log(`📔  Swagger on ${host}:${port}${path}docs`);
 }
 
 function connect() {
