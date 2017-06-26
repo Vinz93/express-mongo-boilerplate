@@ -4,6 +4,9 @@ import Promise from 'bluebird';
 import app from './config/express';
 import config from './config/env';
 
+import 'babel-core/register';
+import 'babel-polyfill';
+
 mongoose.Promise = Promise;
 const { port, path, host } = config.appConfig;
 

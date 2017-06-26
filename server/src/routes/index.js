@@ -1,5 +1,4 @@
 import express from 'express';
-import path from 'path';
 
 import { upload } from '../helpers/utils';
 import common from './common';
