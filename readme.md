@@ -1,4 +1,4 @@
-## Backend
+## Express - Mongo boilerplate
 
 ## Note
 
