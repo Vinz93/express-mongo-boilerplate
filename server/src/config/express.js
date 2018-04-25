@@ -13,7 +13,6 @@ import errorResponse from '../services/middlewares/error_response';
 import config from './env';
 import routes from '../routes';
 
-const { appConfig } = config;
 const app = express();
 const spec = swaggerDoc({
   swaggerDefinition: {
@@ -33,7 +32,7 @@ const spec = swaggerDoc({
 app.disable('x-powered-by');
 app.use(methodOverride('X-HTTP-Method-Override'));
 
-if (appConfig.env === 'development' || appConfig.env === 'testing') {
+if (config.appConfig.env === 'development' || config.appConfig.env === 'testing') {
   app.use(morgan('dev'));
   app.use(bodyParser.urlencoded({
     extended: true,
@@ -43,21 +42,21 @@ if (appConfig.env === 'development' || appConfig.env === 'testing') {
 app.use(bodyParser.json());
 app.use(cors());
 
-app.use(appConfig.path, routes);
+app.use(config.appConfig.path, routes);
 
 swaggerTools.initializeMiddleware(spec, (middleware) => {
   app.use(middleware.swaggerUi({
-    apiDocs: `${appConfig.path}docs.json`,
-    swaggerUi: `${appConfig.path}docs`,
-    apiDocsPrefix: appConfig.basePath,
-    swaggerUiPrefix: appConfig.basePath,
+    apiDocs: `${config.appConfig.path}docs.json`,
+    swaggerUi: `${config.appConfig.path}docs`,
+    apiDocsPrefix: config.appConfig.basePath,
+    swaggerUiPrefix: config.appConfig.basePath,
   }));
 });
 
 app.use(errorMessages);
 app.use(errorResponse);
 
-app.locals.config = appConfig;
+app.locals.config = config.appConfig;
 app.locals.transport = nodemailer.createTransport(config.mailer);
 
 
