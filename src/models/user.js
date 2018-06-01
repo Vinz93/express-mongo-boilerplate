@@ -3,7 +3,7 @@ import validate from 'mongoose-validator';
 import paginate from 'mongoose-paginate';
 import uniqueValidator from 'mongoose-unique-validator';
 import fieldRemover from 'mongoose-field-remover';
-import crypto from 'crypto';
+import bcrypt from 'bcrypt';
 
 const Schema = mongoose.Schema;
 
@@ -71,15 +71,14 @@ UserSchema.virtual('age').get(function () {
 });
 
 UserSchema.methods = {
-  authenticate(password) {
-    return crypto.createHash('md5').update(password).digest('hex') === this.password;
+  async authenticate(password) {
+    return await bcrypt.compare(password, this.password);
   },
 };
 
-UserSchema.pre('save', function (next) {
+UserSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
-
-  this.password = crypto.createHash('md5').update(this.password).digest('hex');
+  this.password = await bcrypt.hash(this.password, 10);
   next();
 });
 

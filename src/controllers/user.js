@@ -146,7 +146,8 @@ const UserController = {
   async login(req, res) {
     const user = await User.findOne({ email: req.body.email });
     if (!user) throw new APIError('user not found', httpStatus.NOT_FOUND);
-    if (!user.authenticate(req.body.password)) {
+    const match = await user.authenticate(req.body.password);
+    if (!match) {
       throw new APIError('wrong password', httpStatus.BAD_REQUEST);
     }
     return res.json({
