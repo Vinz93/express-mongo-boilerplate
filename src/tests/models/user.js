@@ -1,16 +1,11 @@
-/* eslint-disable */
 import chai from 'chai';
 import Promise from 'bluebird';
 import mongoose from 'mongoose';
 import User from '../../models/user';
 
 mongoose.Promise = Promise;
-
-let should = chai.should();
-
 describe('User Model', () => {
   before(done => {
-    const connection = mongoose.connect('mongodb://localhost:27017/template_test');
     User.remove({})
       .then(() => {
         User.create({
@@ -80,5 +75,5 @@ describe('User Model', () => {
       });
     });
   });
-
 });
+

@@ -33,6 +33,7 @@
     "import/no-unresolved": 0
   },
    "env": {
-		"node": true
+    "node": true,
+    "mocha": true,
 	}
 }
