@@ -1,5 +1,6 @@
 import path from 'path';
 import dotenv from 'dotenv';
+import { constants } from 'perf_hooks';
 
 dotenv.config();
 
@@ -17,3 +18,6 @@ export const appConfig = {
   root: path.join(__dirname, '../../../'),
 };
 
+export const constants = {
+  saltRounds = 10,
+};

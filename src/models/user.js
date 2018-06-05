@@ -5,6 +5,8 @@ import uniqueValidator from 'mongoose-unique-validator';
 import fieldRemover from 'mongoose-field-remover';
 import bcrypt from 'bcrypt';
 
+import { constants }from '../config/vars';
+
 const Schema = mongoose.Schema;
 
 /**
@@ -77,8 +79,9 @@ UserSchema.methods = {
 };
 
 UserSchema.pre('save', async function (next) {
+  const { saltRounds } = constants;
   if (!this.isModified('password')) return next();
-  this.password = await bcrypt.hash(this.password, 10);
+  this.password = await bcrypt.hash(this.password, saltRounds);
   next();
 });
 
