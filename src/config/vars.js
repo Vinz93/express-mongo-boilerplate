@@ -24,6 +24,7 @@ export const appConfig = {
   port: process.env.PORT,
   basePort: 3000,
   root: path.join(__dirname, '../../../'),
+  passportSecret: '232323kadcfcfTHB.ssa',
 };
 
 export const constants = {
