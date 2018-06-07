@@ -48,6 +48,7 @@
     "dotenv": "^5.0.1",
     "express": "^4.13.4",
     "express-validation": "^1.0.1",
+    "helmet": "^3.12.1",
     "http-status": "^0.2.3",
     "joi": "^9.2.0",
     "joi-objectid": "^2.0.0",

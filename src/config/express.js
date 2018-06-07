@@ -2,6 +2,8 @@ import path from 'path';
 import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
+import compress from 'compression';
+import helmet from 'helmet';
 import bodyParser from 'body-parser';
 import methodOverride from 'method-override';
 import swaggerDoc from 'swagger-jsdoc';
@@ -28,7 +30,9 @@ const spec = swaggerDoc({
   ],
 });
 
-app.disable('x-powered-by');
+app.use(compress());
+app.use(helmet());
+app.use(helmet.hidePoweredBy());
 app.use(methodOverride('X-HTTP-Method-Override'));
 
 if (appConfig.env === 'development') {
