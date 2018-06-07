@@ -1,11 +1,12 @@
 import express from 'express';
 import validate from 'express-validation';
 
-import User from '../controllers/user';
-import userValidator from '../services/param_validations/user';
-import * as Post from '../controllers/post';
-import postValidator from '../services/param_validations/post';
-import { catchErrors } from '../helpers/errors';
+import User from './controllers/user';
+import userValidator from './services/param_validations/user';
+import * as Post from './controllers/post';
+import postValidator from './services/param_validations/post';
+import { catchErrors } from './helpers/errors';
+
 const router = express.Router(); // eslint-disable-line new-cap
 
 validate.options({

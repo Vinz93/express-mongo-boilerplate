@@ -1,14 +1,15 @@
+import 'babel-polyfill';
+// import 'babel-core/register';
 import mongoose from 'mongoose';
 import Promise from 'bluebird';
 
 import app from './config/express';
 import { dbConfig, appConfig } from './config/vars';
 
-import 'babel-core/register';
-import 'babel-polyfill';
-
 mongoose.Promise = Promise;
-const { port, path, host, basePort, basePath } = appConfig;
+const {
+  port, path, host, basePort, basePath,
+} = appConfig;
 
 function listen() {
   app.listen(port);
@@ -28,8 +29,8 @@ function connect() {
 }
 
 connect()
-.on('error', console.log)
-.on('disconnected', connect)
-.once('open', listen);
+  .on('error', console.log)
+  .on('disconnected', connect)
+  .once('open', listen);
 
 export default app;
