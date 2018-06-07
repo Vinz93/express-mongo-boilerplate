@@ -1,8 +1,16 @@
 import path from 'path';
 import dotenv from 'dotenv';
-import { constants } from 'perf_hooks';
 
 dotenv.config();
+[
+  'NODE_ENV',
+  'PORT',
+  'MONGOURL',
+].forEach((name) => {
+  if (!process.env[name]) {
+    throw new Error(`Environment variable ${name} is missing`);
+  }
+});
 
 export const dbConfig = {
   db: process.env.MONGOURL,
@@ -19,5 +27,5 @@ export const appConfig = {
 };
 
 export const constants = {
-  saltRounds = 10,
+  saltRounds: 10,
 };
