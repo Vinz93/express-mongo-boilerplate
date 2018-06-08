@@ -29,4 +29,5 @@ export const appConfig = {
 
 export const constants = {
   saltRounds: 10,
+  tokenExpTime: 6,
 };
