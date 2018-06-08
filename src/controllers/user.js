@@ -146,8 +146,8 @@ const UserController = {
   async login(req, res) {
     const { user } = req;
     return res.json({
-      token: createJwt(user),
-      user,
+      jwt: createJwt(user),
+      profile: user,
     });
   },
 
@@ -171,7 +171,7 @@ const UserController = {
    *       - application/json
    *     parameters:
    *       - name: Authorization
-   *         description: User's first name.
+   *         description: Bearer token
    *         in: header
    *         required: true
    *         type: string
@@ -181,7 +181,7 @@ const UserController = {
    */
 
   readByMe(req, res) {
-    return res.json(res.locals.user);
+    return res.json(req.user);
   },
 
 };

@@ -6,6 +6,7 @@ import compress from 'compression';
 import helmet from 'helmet';
 import bodyParser from 'body-parser';
 import methodOverride from 'method-override';
+import passport from 'passport';
 import swaggerDoc from 'swagger-jsdoc';
 import swaggerTools from 'swagger-tools';
 
@@ -43,6 +44,8 @@ if (appConfig.env === 'development') {
 }
 
 app.use(bodyParser.json());
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(cors());
 
 app.use(`${appConfig.basePath}${appConfig.path}`, routes);

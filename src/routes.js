@@ -10,7 +10,7 @@ import * as Post from './controllers/post';
 import postValidator from './services/param_validations/post';
 import { catchErrors } from './helpers/errors';
 
-// const requireAuth = passport.authenticate('jwt', { session: true });
+const requireAuth = passport.authenticate('jwt', { session: true });
 const requireSignin = passport.authenticate('local', { session: false });
 
 const router = express.Router(); // eslint-disable-line new-cap
@@ -30,7 +30,7 @@ router.route('/users/login')
   .post(validate(userValidator.login), requireSignin, catchErrors(User.login));
 
 router.route('/users/me')
-  .get(validate(userValidator.readByMe), catchErrors(User.validate), User.readByMe);
+  .get(validate(userValidator.readByMe), requireAuth, User.readByMe);
 
 router.route('/posts')
   .get(validate(postValidator.readAll), catchErrors(Post.readAll))

@@ -2,13 +2,13 @@ import jwt from 'jsonwebtoken';
 import httpStatus from 'http-status';
 
 import { APIError } from '../helpers/errors';
+import { appConfig } from '../config/vars';
 
 export const createJwt = user => (
   jwt.sign({
     id: user._id,
-    email: user.email,
     date: Date.now(),
-  }, 'secret')
+  }, appConfig.passportSecret)
 );
 
 
