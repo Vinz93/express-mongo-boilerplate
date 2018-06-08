@@ -1,8 +1,9 @@
+import jwt from 'jsonwebtoken';
 import httpStatus from 'http-status';
 
 import { paginate } from '../helpers/utils';
 import { APIError } from '../helpers/errors';
-import { createJwt, verifyJwt } from '../services/jwt';
+import { appConfig } from '../config/vars';
 import User from '../models/user';
 
 const UserController = {
@@ -145,19 +146,14 @@ const UserController = {
 
   async login(req, res) {
     const { user } = req;
+    const token = jwt.sign({
+      id: user._id,
+      date: Date.now(),
+    }, appConfig.passportSecret);
     return res.json({
-      jwt: createJwt(user),
+      token,
       profile: user,
     });
-  },
-
-  async validate(req, res, next) {
-    const token = req.get('Authorization');
-    const { id } = await verifyJwt(token);
-    const user = await User.findById(id);
-    if (!user) throw new APIError('User not found', httpStatus.UNAUTHORIZED);
-    res.locals.user = user;
-    next();
   },
 
   /**
