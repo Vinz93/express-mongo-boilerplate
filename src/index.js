@@ -25,11 +25,15 @@ function connect() {
       },
     },
   };
+  console.log('MONGO URL =>', dbConfig.db);
   return mongoose.connect(dbConfig.db, options).connection;
 }
 
 connect()
-  .on('error', console.log)
+  .on('error', () => {
+    console.log('MONGO URL =>', dbConfig.db);
+    throw new Error(`unable to connect to database: ${dbConfig.db}`);
+  })
   .on('disconnected', connect)
   .once('open', listen);
 
